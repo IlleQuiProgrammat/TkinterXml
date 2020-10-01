@@ -1,0 +1,6 @@
+<Page>
+    <TextBlock Text="Look, a label!"
+                Foreground="red"
+                FontSize="16"
+                FontFamily="Courier New"/>
+</Page>
