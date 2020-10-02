@@ -34,7 +34,7 @@ class TextBlock(BaseElement):
     def __init__(self, attributes, children):
         for attribute in attributes.keys():
             if attribute not in self.default_attributes:
-                raise Exception(f"Encountered an invalid attribute on TextBlock {attribute}")
+                raise Exception(f"Encountered an invalid attribute on TextBlock: {attribute}")
             else:
                 self.default_attributes[attribute] = attributes[attribute]
         self.backing_element_generator = self.generate_backing_element()
@@ -45,7 +45,40 @@ class TextBlock(BaseElement):
                                         font=(self.default_attributes["FontFamily"], self.default_attributes["FontSize"]),
                                         foreground=self.default_attributes["Foreground"]
                                 ).grid()
-        
+
+EVENT_HANDLERS = {'Click'}
+
+def other_click_fn(b):
+    print("hello", b)
+
+class Button(BaseElement):
+    default_attributes = {
+        "Content": "Button",
+        "FontSize": 12,
+        "FontFamily": "Segoe UI",
+        "Foreground": "black",
+        "Click": lambda s: print("Button clicked"),
+    }
+    def __init__(self, attributes, children):
+        for attribute in attributes.keys():
+            if attribute not in self.default_attributes:
+                raise Exception(f"Encountered an invalid attribute on Button: {attribute}")
+            else:
+                if attribute in EVENT_HANDLERS:
+                    self.default_attributes[attribute] = eval(attributes[attribute])
+                else:
+                    self.default_attributes[attribute] = attributes[attribute]
+                
+        self.backing_element_generator = self.generate_backing_element()
+    
+    def generate_backing_element(self):
+        return lambda parent: TK.Button(parent,
+                                        text=self.default_attributes["Content"],
+                                        font=(self.default_attributes["FontFamily"], self.default_attributes["FontSize"]),
+                                        foreground=self.default_attributes["Foreground"],
+                                        command=lambda: self.default_attributes["Click"](self)
+                                ).grid()
+
 main_window = None
 
 # TODO: Make generic
@@ -62,7 +95,7 @@ def process(element_tree: [ET.Element]):
         return main_window
     elif element.tag == "Button":
         # create a button here
-        return
+        return Button(element.attrib, children)
     elif element.tag == "TextBlock":
         # create a label here
         return TextBlock(element.attrib, children)

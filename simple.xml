@@ -1,6 +1,7 @@
 <Page>
-    <TextBlock Text="Look, a label!"
+    <Button Content="Look, a button!"
                 Foreground="red"
                 FontSize="16"
-                FontFamily="Courier New"/>
+                FontFamily="Courier New"
+                Click="other_click_fn"/>
 </Page>
