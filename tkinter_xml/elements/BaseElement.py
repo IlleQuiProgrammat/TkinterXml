@@ -4,8 +4,9 @@ class BaseElement():
     default_attributes = {}
     custom_attributes = {}
 
-    def __init__(self, attributes, children):
+    def __init__(self, attributes, children, parent_page):
         self.children = children
+        self.parent_page = parent_page
         for attribute in attributes.keys():
             if '.' in attribute:
                 custom_attribute_prefix = attribute.split('.')[0]
@@ -19,7 +20,7 @@ class BaseElement():
                 raise Exception(f"Encountered an invalid attribute on Button: {attribute}")
             else:
                 if attribute in EVENT_HANDLERS:
-                    self.default_attributes[attribute] = eval(attributes[attribute])
+                    self.default_attributes[attribute] = getattr(parent_page, attributes[attribute])
                 else:
                     self.default_attributes[attribute] = attributes[attribute]
     
