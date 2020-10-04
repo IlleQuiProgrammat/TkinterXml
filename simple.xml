@@ -9,6 +9,6 @@
                     FontSize="16"
                     FontFamily="Courier New"
                     Click="other_click_fn" />
-        <TextBlock Grid.Column="1" Text="2nd column!" FontFamily="Segoe UI" />
+        <TextBlock x_Name="should_be_visible_on_mainpage" Grid.Column="1" Text="2nd column!" FontFamily="Segoe UI" />
     </Grid>
 </Page>
