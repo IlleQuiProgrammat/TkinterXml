@@ -2,6 +2,18 @@ import tkinter as TK
 from tkinter_xml.elements.BaseElement import *
 
 class Grid(BaseElement):
+
+        
+    # So that we can use type information to process the tree
+    class ColumnDefinitions:
+        def __init__(self, attributes, definitions, parent_page):
+            self.definitions = definitions
+
+    class RowDefinitions:
+        def __init__(self, attributes, definitions, parent_page):
+            self.definitions = definitions
+            
+
     default_attributes = {
         "Background": "transparent"
     }
@@ -14,29 +26,29 @@ class Grid(BaseElement):
         columns = None
         rows = None
         for child in self.children:
-            if isinstance(child, ColumnDefinitions):
+            if isinstance(child, Grid.ColumnDefinitions):
                 if columns != None:
                     raise Exception("Grid element cannot have more than 1 column definition")
                 columns = child
-            if isinstance(child, RowDefinitions):
+            if isinstance(child, Grid.RowDefinitions):
                 if rows != None:
                     raise Exception("Grid element cannot have more than 1 row definition")
                 rows = child
 
         # If none are found, default to none so we dont get a NoneType error
         if rows == None:
-            rows = RowDefinitions([])
+            rows = Grid.RowDefinitions({}, [], None)
         if columns == None:
-            columns = ColumnDefinitions([])
+            columns = Grid.ColumnDefinitions({}, [], None)
         
         # Configure the columns and rows based on the parsed values
         for index, definition in enumerate(columns.definitions):
-            grid_parent.grid_columnconfigure(index, weight=definition[0], minsize=definition[0])
+            grid_parent.grid_columnconfigure(index, weight=definition.multiplier, minsize=definition.minsize)
         for index, definition in enumerate(rows.definitions):
-            grid_parent.grid_rowconfigure(index, weight=definition[0], minsize=definition[1])
+            grid_parent.grid_rowconfigure(index, weight=definition.multiplier, minsize=definition.minsize)
         
         for child in self.children:
-            if not (isinstance(child, ColumnDefinitions) or isinstance(child, RowDefinitions)):
+            if not (isinstance(child, Grid.ColumnDefinitions) or isinstance(child, Grid.RowDefinitions)):
                 column = 0
                 row = 0
                 if 'Grid' in child.custom_attributes:
@@ -48,16 +60,12 @@ class Grid(BaseElement):
                 child.backing_element_generator(grid_parent).grid(column=column, row=row)
         return grid_parent
 
-# So that we can use type information to process the tree
-class ColumnDefinitions:
-    def __init__(self, definitions):
-        self.definitions = []
-        for definition in definitions:
-            self.definitions.append(self.parse_column_definition(definition))
 
-    def parse_column_definition(self, definition):
-        multiplier = 0
-        minsize = 0
+class ColumnDefinition(BaseElement):
+    def __init__(self, attributes, children, parent_page):
+        self.multiplier = 0
+        self.minsize = 0
+        definition = attributes["Width"]
         if '*' in definition:
             preparsed = definition.split("*")
             parsed = []
@@ -66,24 +74,19 @@ class ColumnDefinitions:
                     parsed.append(v)
             if len(parsed) > 1 or (len(parsed) == 1 and parsed[0].isdigit()):
                 raise Exception(f"ColumnDefinition `{definition}' is invalid")
-            multiplier = 1
+            self.multiplier = 1
             if len(parsed) == 1:
-                multiplier = int(parsed[0])
+                self.multiplier = int(parsed[0])
         else:
             if not definition.isdigit():
-                raise Exception(f"ColumnDefinition {definition} is invalid")
-            minsize = int(definition)
-        return (multiplier, minsize)
+                raise Exception(f"ColumnDefinition `{definition}' is invalid")
+            self.minsize = int(definition)
 
-class RowDefinitions:
-    def __init__(self, definitions):
-        self.definitions = []
-        for definition in definitions:
-            self.definitions.append(self.parse_row_definition(definition))
-
-    def parse_row_definition(self, definition):
-        multiplier = 0
-        minsize = 0
+class RowDefinition(BaseElement):
+    def __init__(self, attributes, children, parent_page):
+        definition = attributes["Height"]
+        self.multiplier = 0
+        self.minsize = 0
         if '*' in definition:
             preparsed = definition.split("*")
             parsed = []
@@ -92,11 +95,10 @@ class RowDefinitions:
                     parsed.append(v)
             if len(parsed) > 1 or (len(parsed) == 1 and parsed[0].isdigit()):
                 raise Exception(f"RowDefinition `{definition}' is invalid")
-            multiplier = 1
+            self.multiplier = 1
             if len(parsed) == 1:
-                multiplier = int(parsed[0])
+                self.multiplier = int(parsed[0])
         else:
             if not definition.isdigit():
                 raise Exception(f"RowDefinition `{definition}' is invalid")
-            minsize = int(definition)
-        return (multiplier, minsize)
+            self.minsize = int(definition)

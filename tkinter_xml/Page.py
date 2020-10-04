@@ -16,30 +16,14 @@ class Page(BaseElement):
     def process_xml_tree(self, element_tree: [ET.Element]):
         element = element_tree[0]
         children = [self.process_xml_tree(child) for child in element_tree[1]]
-        print(children)
         if element.tag == "Page":
             if self.page_children != None:
                 raise Exception("Re-definition of page not permitted")
             self.page_children = children
             return self.page_children
-        elif element.tag == "Button":
-            # create a button here
-            return Button(element.attrib, children, self)
-        elif element.tag == "TextBlock":
-            # create a label here
-            return TextBlock(element.attrib, children, self)
-        elif element.tag == "Grid":
-            return Grid(element.attrib, children, self)
-        elif element.tag == "Grid.ColumnDefinitions":
-            return ColumnDefinitions(children)
-        elif element.tag == "ColumnDefinition":
-            return element.attrib["Width"]
-        elif element.tag == "Grid.RowDefinitions":
-            return RowDefinitions(children)
-        elif element.tag == "RowDefinition":
-            return element.attrib["Height"]
         else:
-            raise Exception("Invalid tag")
+            # TODO: Enable people adding into the eval scope (not sure of feasibility)
+            return eval(element.tag)(element.attrib, children, self)
 
     def dfs_xml(self, element: ET.Element):
         currelem = [element]
