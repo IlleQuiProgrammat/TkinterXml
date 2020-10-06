@@ -1,5 +1,6 @@
 import tkinter as TK
 import xml.etree.cElementTree as ET
+import importlib
 from tkinter_xml.elements.BaseElement import *
 from tkinter_xml.elements.Grid import *
 from tkinter_xml.elements.Button import *
@@ -17,13 +18,18 @@ class Page(BaseElement):
         element = element_tree[0]
         children = [self.process_xml_tree(child) for child in element_tree[1]]
         if element.tag == "Page":
+            for attrib in element.attrib.keys():
+                if attrib.startswith("include."):
+                    alias = attrib[8:]
+                    # TODO: set up proper importing
+                    importlib.import_module(element.attrib[attrib])
+                    alias = element.attrib[attrib]
             if self.page_children != None:
                 raise Exception("Re-definition of page not permitted")
             self.page_children = children
             return self.page_children
         else:
-            # TODO: Enable people adding into the eval scope (not sure of feasibility)
-            return eval(element.tag)(element.attrib, children, self)
+            return eval(element.tag.replace(":", ".", 1))(element.attrib, children, self)
 
     def dfs_xml(self, element: ET.Element):
         currelem = [element]

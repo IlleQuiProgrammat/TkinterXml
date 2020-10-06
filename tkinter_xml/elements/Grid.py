@@ -55,7 +55,7 @@ class Grid(BaseElement):
                     if 'Column' in child.custom_attributes['Grid']:
                         column = int(child.custom_attributes['Grid']['Column'])
                     if 'Row' in child.custom_attributes['Grid']:
-                        column = int(child.custom_attributes['Grid']['Row'])
+                        row = int(child.custom_attributes['Grid']['Row'])
                 
                 child.backing_element_generator(grid_parent).grid(column=column, row=row)
         return grid_parent
