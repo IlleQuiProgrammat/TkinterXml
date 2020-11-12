@@ -3,14 +3,17 @@ from tkinter_xml.constants import *
 from tkinter_xml.elements.BaseElement import *
 
 class Button(BaseElement):
-    default_attributes = {
-        "Content": "Button",
-        "FontSize": 12,
-        "FontFamily": "Segoe UI",
-        "Foreground": "black",
-        "Click": lambda s: print("Button clicked"),
-    }
-    custom_attributes = {}
+
+    def __init__(self, attributes, children, parent_page):
+        self.default_attributes = {
+            "Content": "Button",
+            "FontSize": 12,
+            "FontFamily": "Segoe UI",
+            "Foreground": "black",
+            "Click": lambda s: print("Button clicked"),
+        }
+        
+        super().__init__(attributes, children, parent_page)
     
     def backing_element_generator(self, parent):
         return TK.Button(parent,

@@ -1,10 +1,8 @@
 import tkinter as TK
 from tkinter_xml.constants import *
 class BaseElement():
-    default_attributes = {}
-    custom_attributes = {}
-
-    def __init__(self, attributes, children, parent_page):
+    def __init__(self, attributes, children, parent_page, __initialiseDefaultAttrib=False):
+        self.custom_attributes = {}
         self.children = children
         self.parent_page = parent_page
         for attribute in attributes.keys():

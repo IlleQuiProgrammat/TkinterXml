@@ -9,6 +9,7 @@ from tkinter_xml.elements.TextBlock import *
 class Page(BaseElement):
     page_children = None
     def __init__(self, sourcefile, attributes, children, parent_page=None):
+        self.default_attributes = {}
         super().__init__(attributes, children, self)
         self.sourcefile = sourcefile
         self.process_source()

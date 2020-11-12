@@ -13,10 +13,12 @@ class Grid(BaseElement):
         def __init__(self, attributes, definitions, parent_page):
             self.definitions = definitions
             
-
-    default_attributes = {
-        "Background": "transparent"
-    }
+    def __init__(self, attributes, children, parent_page):
+        self.default_attributes = {
+            "Background": "transparent"
+        }
+        
+        super().__init__(attributes, children, parent_page)
     
     def backing_element_generator(self, parent):
         grid_parent = TK.Frame(parent)
