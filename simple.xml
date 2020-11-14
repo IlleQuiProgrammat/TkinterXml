@@ -1,18 +1,18 @@
 <Page>
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="600" />
-            <ColumnDefinition Width="2*" />
+            <ColumnDefinition width="600" />
+            <ColumnDefinition width="2*" />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="150" />
-            <RowDefinition Height="2*" />
+            <RowDefinition height="150" />
+            <RowDefinition height="2*" />
         </Grid.RowDefinitions>
-        <Button Grid.Column="0" Grid.Row="0" Content="Look, a button!"
-                    Foreground="red"
-                    FontSize="16"
-                    FontFamily="Courier New"
-                    Click="other_click_fn" />
-        <TextBlock x_Name="should_be_visible_on_mainpage" Grid.Column="1" Grid.Row="1" Text="2nd column!" FontFamily="Segoe UI" />
+        <Button Grid.column="0" Grid.row="0" content="Look, a button!"
+                    foreground="red"
+                    font_size="16"
+                    font_family="Courier New"
+                    click="other_click_fn" />
+        <TextBlock x_Name="should_be_visible_on_mainpage" Grid.column="1" Grid.row="1" text="2nd column!" font_family="Segoe UI" />
     </Grid>
 </Page>

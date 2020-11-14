@@ -18,7 +18,7 @@ class Grid(BaseElement):
             "Background": "transparent"
         }
         
-        super().__init__(attributes, children, parent_page)
+        super().__init__(attributes, children, parent_page, False)
     
     def backing_element_generator(self, parent):
         grid_parent = TK.Frame(parent)
@@ -54,10 +54,10 @@ class Grid(BaseElement):
                 column = 0
                 row = 0
                 if 'Grid' in child.custom_attributes:
-                    if 'Column' in child.custom_attributes['Grid']:
-                        column = int(child.custom_attributes['Grid']['Column'])
-                    if 'Row' in child.custom_attributes['Grid']:
-                        row = int(child.custom_attributes['Grid']['Row'])
+                    if 'column' in child.custom_attributes['Grid']:
+                        column = int(child.custom_attributes['Grid']['column'])
+                    if 'row' in child.custom_attributes['Grid']:
+                        row = int(child.custom_attributes['Grid']['row'])
                 
                 child.backing_element_generator(grid_parent).grid(column=column, row=row)
         return grid_parent
@@ -67,7 +67,7 @@ class ColumnDefinition(BaseElement):
     def __init__(self, attributes, children, parent_page):
         self.multiplier = 0
         self.minsize = 0
-        definition = attributes["Width"]
+        definition = attributes["width"]
         if '*' in definition:
             preparsed = definition.split("*")
             parsed = []
@@ -86,7 +86,7 @@ class ColumnDefinition(BaseElement):
 
 class RowDefinition(BaseElement):
     def __init__(self, attributes, children, parent_page):
-        definition = attributes["Height"]
+        definition = attributes["height"]
         self.multiplier = 0
         self.minsize = 0
         if '*' in definition:

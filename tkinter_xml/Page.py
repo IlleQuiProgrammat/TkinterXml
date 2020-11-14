@@ -10,7 +10,7 @@ class Page(BaseElement):
     page_children = None
     def __init__(self, sourcefile, attributes, children, parent_page=None):
         self.default_attributes = {}
-        super().__init__(attributes, children, self)
+        super().__init__(attributes, children, self, False)
         self.sourcefile = sourcefile
         self.process_source()
     
@@ -43,4 +43,4 @@ class Page(BaseElement):
         self.process_xml_tree(result)
     
     def backing_element_generator(self, parent):
-        return children[0].backing_element_generator(self).grid()
+        return self.children[0].backing_element_generator(self).grid()
