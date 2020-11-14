@@ -21,15 +21,15 @@ supported tags.
 4. `TextBlock` - Resolves to a TKinter `Label`
 5. `BaseElement` - Base class which all elements should derive from. Defines 
    the default constructor to manage attributes and children. All elements have 
-   a function with signature `def backing_element_generator(self, parent: tkinter_xml.BaseElement) -> tkinter.Frame` 
+   a function with signature `def backing_element_generator(self, parent) -> tkinter.Frame` 
    which is used to render the page contents recursively.
 
 ## Custom Attributes
 
 These are in the form of `attribute_namespace.attribute_name` and represents an 
-arbitrary attribute (not checked if it is in the default attribute dictionary) 
-which will be handled by the parent of the tag (for example `Grid.Column` and 
-`Grid.Row` is processed by the `Grid` element and should be ignored by all 
+arbitrary attribute (not checked if it is a valid property on the derived class) 
+which will be handled by the parent of the tag (for example `Grid.column` and 
+`Grid.row` is processed by the `Grid` element and should be ignored by all 
 other elements).
 
 ## Tag Resolution
@@ -38,30 +38,31 @@ Tags must be in the namespace of the `BaseElement`-derived class otherwise the
 `eval` used to resolve the tag name will not be able to find the intended tag 
 type.
 
+## Event Handlers
+
+Event handlers act like any other attribute but should be parsed with the following snippet:
+
+```py
+if isinstance(value, str):
+    to_set = getattr(self.parent_page, value)
+```
+
 ## Reserved Attributes
 
-There are two categories of reserved attributes: event handlers and 
-variable-based attributes. These mainly operate around the use of the backing 
-class to provide both data-access and data-reading.
+### Element Variables on Page Class
 
-### Event Handlers
-
-Currently, event handlers are tested by comparing them to a set of attributes 
-(currently only `Click` but this will likely be expanded and made custom 
-per-element). Once the attribute has been identified as being an event handler, 
-the attribute is resolved to the function on the parent page class using 
-`getattr`.
-
-### Variable-Based Attributes
-
-`x_Name` Signifies that the element should be assigned to the variable specified
-by the attribute on the page class. This employs `setattr` to make this
-possible.
+The attribute `x_Name` signifies that the element should be assigned to the variable specified by the attribute on the page class. This users `setattr` to set the element accordingly. It sets the `BaseElement`-derived class rather than the tkinter object.
 
 Plans to add binding (referenced-based values for elements such as `TextBlock`).
 
-## Folder Structure
+> Note: this would probably require setting up some sort of observable class which stores the functions which should be called when the value changes
 
+## Changing element properties
+
+Simply run `my_obj.<property_to_change> = <new_value>` and then `my_obj.reload()` unless you have auto-update enabled.
+
+## Folder Structure
+ - `helpers` - Currently contains some code-generation helpers
  - `tkinter_xml` - Contains the module for processing and converting the base
    xml into tkinter widgets
    - `elements` - Contains the pre-defined elements as above.
