@@ -14,14 +14,9 @@ class MainPage(Page):
         self.page_children[0].backing_element_generator(self.window).grid()
         self.window.mainloop()
     
-    def other_click_fn(self, button):
-        print("Oh yeah:", self, button)
-        if button.foreground == "red":
-            button.foreground = "black"
-        else:
-            button.foreground = "red"
-        self.counter += 1
-        self.should_be_visible_on_mainpage.text = str(self.counter)
+    def change_collection(self, collection_button):
+        collection_name = collection_button.content
+        self.title.text = collection_name
 
-main_window = MainPage("simple.xml")
+main_window = MainPage("testing.xml")
 main_window.run()
