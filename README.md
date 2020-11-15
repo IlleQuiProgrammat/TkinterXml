@@ -34,9 +34,8 @@ other elements).
 
 ## Tag Resolution
 
-Tags must be in the namespace of the `BaseElement`-derived class otherwise the 
-`eval` used to resolve the tag name will not be able to find the intended tag 
-type.
+Tags must be registered with `tkinter_xml.element_list.register_element(name, class)`
+so that they can be resolved.
 
 ## Event Handlers
 

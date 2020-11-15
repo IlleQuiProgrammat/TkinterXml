@@ -1,5 +1,6 @@
 import tkinter as TK
 from tkinter_xml.elements.BaseElement import *
+from tkinter_xml.element_list import register_element
 
 class TextBlock(BaseElement):
 
@@ -387,3 +388,5 @@ class TextBlock(BaseElement):
                             width=self.width,
                             wraplength=self.wrap_length,
                         )
+
+register_element("TextBlock", TextBlock)

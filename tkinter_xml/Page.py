@@ -5,6 +5,7 @@ from tkinter_xml.elements.BaseElement import *
 from tkinter_xml.elements.Grid import *
 from tkinter_xml.elements.Button import *
 from tkinter_xml.elements.TextBlock import *
+from tkinter_xml.element_list import retrieve_element
 
 class Page(BaseElement):
     page_children = None
@@ -19,18 +20,12 @@ class Page(BaseElement):
         element = element_tree[0]
         children = [self.process_xml_tree(child) for child in element_tree[1]]
         if element.tag == "Page":
-            for attrib in element.attrib.keys():
-                if attrib.startswith("include."):
-                    alias = attrib[8:]
-                    # TODO: set up proper importing
-                    importlib.import_module(element.attrib[attrib])
-                    alias = element.attrib[attrib]
             if self.page_children != None:
                 raise Exception("Re-definition of page not permitted")
             self.page_children = children
             return self.page_children
         else:
-            return eval(element.tag.replace(":", ".", 1))(element.attrib, children, self)
+            return retrieve_element(element.tag.replace(":", ".", 1))(element.attrib, children, self)
 
     def dfs_xml(self, element: ET.Element):
         currelem = [element]
@@ -43,4 +38,4 @@ class Page(BaseElement):
         self.process_xml_tree(result)
     
     def backing_element_generator(self, parent):
-        return self.children[0].backing_element_generator(self).grid()
+        return self.page_children[0].backing_element_generator(parent)

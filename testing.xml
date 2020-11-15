@@ -19,10 +19,14 @@
                 <RowDefinition height="30" />
                 <RowDefinition height="30" />
             </Grid.RowDefinitions>
-            <Button Grid.row="0" content="Collection 1" font_size="16" click="change_collection" />
-            <Button Grid.row="1" content="Collection 2" font_size="16" click="change_collection" />
-            <Button Grid.row="2" content="Collection 3" font_size="16" click="change_collection" />
-            <Button Grid.row="3" content="Collection 4" font_size="16" click="change_collection" />
+            <Button Grid.row="0"
+                    text="Collection 1"
+                    font_size="16"
+                    click="change_collection"
+                    width="15" />
+            <Button Grid.row="1" text="Collection 2" font_size="16" click="change_collection" width="15" />
+            <Button Grid.row="2" text="Collection 3" font_size="16" click="change_collection" width="15" />
+            <Button Grid.row="3" text="Collection 4" font_size="16" click="change_collection" width="15" />
         </Grid>
 
         <!-- Title, progress, test button, and new quote button -->
@@ -32,6 +36,7 @@
         
         <!-- List of quotes -->
         <Grid Grid.row="1" Grid.column="1">
+            <QuoteElement />
         </Grid>
     </Grid>
 </Page>

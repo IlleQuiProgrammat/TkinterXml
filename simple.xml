@@ -8,7 +8,7 @@
             <RowDefinition height="150" />
             <RowDefinition height="2*" />
         </Grid.RowDefinitions>
-        <Button Grid.column="0" Grid.row="0" content="Look, a button!"
+        <Button Grid.column="0" Grid.row="0" text="Look, a button!"
                     foreground="red"
                     font_size="16"
                     font_family="Courier New"

@@ -1,5 +1,7 @@
 import tkinter as TK
 from tkinter_xml.elements.BaseElement import *
+from tkinter_xml.element_list import register_element
+
 
 class Grid(BaseElement):
 
@@ -62,6 +64,9 @@ class Grid(BaseElement):
                 child.backing_element_generator(grid_parent).grid(column=column, row=row)
         return grid_parent
 
+register_element("Grid", Grid)
+register_element("Grid.RowDefinitions", Grid.RowDefinitions)
+register_element("Grid.ColumnDefinitions", Grid.ColumnDefinitions)
 
 class ColumnDefinition(BaseElement):
     def __init__(self, attributes, children, parent_page):
@@ -84,6 +89,8 @@ class ColumnDefinition(BaseElement):
                 raise Exception(f"ColumnDefinition `{definition}' is invalid")
             self.minsize = int(definition)
 
+register_element("ColumnDefinition", ColumnDefinition)
+
 class RowDefinition(BaseElement):
     def __init__(self, attributes, children, parent_page):
         definition = attributes["height"]
@@ -104,3 +111,5 @@ class RowDefinition(BaseElement):
             if not definition.isdigit():
                 raise Exception(f"RowDefinition `{definition}' is invalid")
             self.minsize = int(definition)
+
+register_element("RowDefinition", RowDefinition)
