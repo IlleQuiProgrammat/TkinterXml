@@ -23,7 +23,7 @@ class Grid(BaseElement):
         super().__init__(attributes, children, parent_page, False)
     
     def backing_element_generator(self, parent):
-        grid_parent = TK.Frame(parent)
+        grid_parent = TK.Frame(parent, background="#E4E4E4")
 
         # Collect row definitions from anywhere in a direct child xml node and use the {Column,Row}Definition class to
         # parse them

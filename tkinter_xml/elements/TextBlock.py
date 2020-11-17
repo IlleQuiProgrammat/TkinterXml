@@ -9,7 +9,7 @@ class TextBlock(BaseElement):
         self._active_background = "white"
         self._active_foreground = "black"
         self._anchor = TK.CENTER
-        self._background = "white"
+        self._background = "#E4E4E4"
         self._bitmap = ""
         self._border_width = 0
         self._compound = TK.NONE

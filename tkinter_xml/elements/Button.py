@@ -6,19 +6,19 @@ from tkinter_xml.elements.BaseElement import *
 class Button(BaseElement):
 
     def __init__(self, attributes, children, parent_page, immediate_update=True):
-        self._active_background = "gray"
+        self._active_background = "#B4B4B1"
         self._active_foreground = "black"
         self._anchor = TK.CENTER
-        self._background = "gray"
+        self._background = "#A0A09A"
         self._bitmap = ""
-        self._border_width = 1
+        self._border_width = 0
         self._compound = TK.NONE
         self._cursor = "hand1"
         self._default = TK.DISABLED
-        self._disabled_foreground = "gray"
+        self._disabled_foreground = "#777777" # disabled_background: #B8B8B8
         self._height = 0
-        self._highlight_background = "gray"
-        self._highlight_color = "blue"
+        self._highlight_background = "#B4B4B1"
+        self._highlight_color = "#0078D7"
         self._highlight_thickness = 2
         self._image = ""
         self._justify = TK.CENTER
