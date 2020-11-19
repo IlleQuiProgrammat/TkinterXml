@@ -36,7 +36,7 @@
         
         <!-- List of quotes -->
         <Grid Grid.row="1" Grid.column="1">
-            <QuoteElement />
+            <QuoteElement quote_text="I dare do all that may become a man; / Who dares do more is none." />
         </Grid>
     </Grid>
 </Page>

@@ -11,9 +11,9 @@ class Page(BaseElement):
     page_children = None
     def __init__(self, sourcefile, attributes, children, parent_page=None):
         self.default_attributes = {}
-        super().__init__(attributes, children, self, False)
         self.sourcefile = sourcefile
         self.process_source()
+        super().__init__(attributes, children, self, False)
     
     # TODO: Make this more generic
     def process_xml_tree(self, element_tree: [ET.Element]):

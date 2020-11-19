@@ -1,3 +1,10 @@
 <Page>
-    <Button font_size="12" text="Holloa!" click="onclick"/>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition width="*" />
+            <ColumnDefinition width="*" />
+        </Grid.ColumnDefinitions>
+        <TextBlock x_Name="quote_label" Grid.column="0" />
+        <Button Grid.column="1" font_size="12" text="Delete Quote" click="delete" padding="0"/>
+    </Grid>
 </Page>

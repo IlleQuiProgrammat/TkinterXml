@@ -11,8 +11,20 @@ class QuoteElement(Page):
         source = "./quote_element.xml"
         super().__init__(source, attributes, [], None)
     
-    def onclick(self, quote_button):
-        print(f"Clicked {self}")
+    @property
+    def quote_text(self):
+        return self.quote_label.text
+    
+    @quote_text.setter
+    def quote_text(self, value):
+        if hasattr(self.quote_label, "element"):
+            self.quote_label.text = value
+        else:
+            self.quote_label._text = value
+
+    def delete(self, quote_button):
+        print(f"Attempted to delete {self}")
+        del self
 
 register_element("QuoteElement", QuoteElement)
 

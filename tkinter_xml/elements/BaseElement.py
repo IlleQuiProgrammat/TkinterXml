@@ -7,9 +7,12 @@ class BaseElement():
         self.immediate_update = False
         self.children = children
         self.parent_page = parent_page
+        attributes = {a.strip() : attributes[a].strip() for a in attributes}
+        if "x_Name" in attributes:
+                setattr(parent_page, attributes["x_Name"], self)
         for attribute in attributes.keys():
             if 'x_Name' == attribute:
-                setattr(parent_page, attributes[attribute], self)
+                continue
             elif '.' in attribute:
                 custom_attribute_prefix = attribute.split('.')[0]
                 if custom_attribute_prefix in self.custom_attributes:
@@ -17,8 +20,8 @@ class BaseElement():
                 else:
                     self.custom_attributes[custom_attribute_prefix] = {}
                     self.custom_attributes[custom_attribute_prefix][".".join(attribute.split('.')[1:])] = attributes[attribute]
-            elif not hasattr(self, attribute) or isinstance(getattr(self, attribute), property):
-                raise Exception(f"Encountered an invalid attribute on element {self}: {attribute} on {dir(self)} ({type(getattr(self, attribute))})")
+            elif attribute not in dir(self):
+                raise Exception(f"{self} missing {attribute} ({dir(self)})")
             else:
                 setattr(self, attribute, attributes[attribute])
         self.immediate_update = immediate_update
