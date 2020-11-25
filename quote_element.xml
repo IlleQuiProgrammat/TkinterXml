@@ -1,10 +1,10 @@
 <Page>
-    <Grid>
+    <Grid background="#FFFFFF">
         <Grid.ColumnDefinitions>
             <ColumnDefinition width="*" />
             <ColumnDefinition width="*" />
         </Grid.ColumnDefinitions>
-        <TextBlock x_Name="quote_label" Grid.column="0" />
+        <TextBlock x_Name="quote_label" Grid.column="0" background="#FFFFFF" padding="10,5" />
         <Button Grid.column="1" font_size="12" text="Delete Quote" click="delete" padding="0"/>
     </Grid>
 </Page>

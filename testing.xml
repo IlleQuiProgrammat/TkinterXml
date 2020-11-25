@@ -13,20 +13,12 @@
         <TextBlock Grid.row="0" Grid.column="0" text="Hello, Nathan" font_size="32" />
         
         <!-- List of collections -->
-        <Grid Grid.row="1" Grid.column="0">
-            <Grid.RowDefinitions>
+        <Grid Grid.row="1" Grid.column="0" x_Name="collection_grid">
+            <Grid.RowDefinitions x_Name="collection_grid_rowdefinitions">
                 <RowDefinition height="30" />
                 <RowDefinition height="30" />
                 <RowDefinition height="30" />
             </Grid.RowDefinitions>
-            <Button Grid.row="0"
-                    text="Collection 1"
-                    font_size="16"
-                    click="change_collection"
-                    width="15" />
-            <Button Grid.row="1" text="Collection 2" font_size="16" click="change_collection" width="15" />
-            <Button Grid.row="2" text="Collection 3" font_size="16" click="change_collection" width="15" />
-            <Button Grid.row="3" text="Collection 4" font_size="16" click="change_collection" width="15" />
         </Grid>
 
         <!-- Title, progress, test button, and new quote button -->
@@ -35,8 +27,10 @@
         </Grid>
         
         <!-- List of quotes -->
-        <Grid Grid.row="1" Grid.column="1">
-            <QuoteElement quote_text="I dare do all that may become a man; / Who dares do more is none." />
+        <Grid Grid.row="1" Grid.column="1" x_Name="quote_grid">
+        <Grid.RowDefinitions x_Name="quote_grid_rowdefinitions">
+            
+        </Grid.RowDefinitions>
         </Grid>
     </Grid>
 </Page>
