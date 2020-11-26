@@ -1,5 +1,18 @@
 <Page>
-    <InputBox text="Quote" x_Name="input_box" width="100" border_width="0" content="Ex" />
-    <Button text="Check" />
-    <TextBlock x_Name="message" />
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition height="*" />
+            <RowDefinition height="*" />
+            <RowDefinition height="*" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition width="*" />
+            <ColumnDefinition width="*" />
+        </Grid.ColumnDefinitions>
+        <TextBlock Grid.column_span="2" Grid.column="0" Grid.Row="0" text="Tag: Regicide: " font_size="18"/>
+        <InputBox Grid.column="0" Grid.row="1" text="Quote" x_Name="input_box" width="100" border_width="0" content="Ex" />
+        <Button Grid.column="1" Grid.row="1" text="Check" padding="0" click="check_quote" />
+        <TextBlock Grid.column="0" Grid.row="2" x_Name="message" />
+        <Button Grid.column="1" Grid.row="2" click="complete_test" padding="0" text="Finish" />
+    </Grid>
 </Page>

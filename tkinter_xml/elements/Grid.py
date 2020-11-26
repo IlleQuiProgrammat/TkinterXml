@@ -10,20 +10,39 @@ class Grid(BaseElement):
     class ColumnDefinitions:
         def __init__(self, attributes, definitions, parent_page):
             self.definitions = definitions
+            if "x_Name" in attributes:
+                setattr(parent_page, attributes["x_Name"], self)
 
     class RowDefinitions:
         def __init__(self, attributes, definitions, parent_page):
             self.definitions = definitions
+            if "x_Name" in attributes:
+                setattr(parent_page, attributes["x_Name"], self)
             
     def __init__(self, attributes, children, parent_page):
-        self.default_attributes = {
-            "Background": "transparent"
-        }
+        self._background = "#E4E4E4"
         
         super().__init__(attributes, children, parent_page, False)
     
+    @property
+    def background(self):
+        return self._background
+
+    @background.setter
+    def background(self, value):
+        self._background = value
+        if self.immediate_update:
+            self.reload()
+
     def backing_element_generator(self, parent):
-        grid_parent = TK.Frame(parent, background="#E4E4E4")
+        grid_parent = TK.Frame(parent)
+        self.element = grid_parent
+        self.reload()
+        return grid_parent
+    
+    def reload(self):
+        self.element.config(background=self.background)
+        
 
         # Collect row definitions from anywhere in a direct child xml node and use the {Column,Row}Definition class to
         # parse them
@@ -47,9 +66,9 @@ class Grid(BaseElement):
         
         # Configure the columns and rows based on the parsed values
         for index, definition in enumerate(columns.definitions):
-            grid_parent.grid_columnconfigure(index, weight=definition.multiplier, minsize=definition.minsize)
+            self.element.grid_columnconfigure(index, weight=definition.multiplier, minsize=definition.minsize)
         for index, definition in enumerate(rows.definitions):
-            grid_parent.grid_rowconfigure(index, weight=definition.multiplier, minsize=definition.minsize)
+            self.element.grid_rowconfigure(index, weight=definition.multiplier, minsize=definition.minsize)
         
         for child in self.children:
             if not (isinstance(child, Grid.ColumnDefinitions) or isinstance(child, Grid.RowDefinitions)):
@@ -61,8 +80,7 @@ class Grid(BaseElement):
                     if 'row' in child.custom_attributes['Grid']:
                         row = int(child.custom_attributes['Grid']['row'])
                 
-                child.backing_element_generator(grid_parent).grid(column=column, row=row)
-        return grid_parent
+                child.backing_element_generator(self.element).grid(column=column, row=row)
 
 register_element("Grid", Grid)
 register_element("Grid.RowDefinitions", Grid.RowDefinitions)

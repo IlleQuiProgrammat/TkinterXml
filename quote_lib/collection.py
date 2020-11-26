@@ -1,4 +1,4 @@
-from quote import Quote
+from quote_lib.quote import Quote
 
 class QuoteCollection:
     def __init__(self, object_from_yaml):

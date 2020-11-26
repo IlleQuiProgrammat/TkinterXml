@@ -1,0 +1,6 @@
+<Page>
+    <Grid x_Name="quote_grid">
+    <Grid.RowDefinitions x_Name="quote_grid_rowdefinitions">
+    </Grid.RowDefinitions>
+    </Grid>
+</Page>
