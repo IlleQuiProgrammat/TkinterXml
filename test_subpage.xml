@@ -1,0 +1,5 @@
+<Page>
+    <InputBox text="Quote" x_Name="input_box" width="100" border_width="0" content="Ex" />
+    <Button text="Check" />
+    <TextBlock x_Name="message" />
+</Page>
