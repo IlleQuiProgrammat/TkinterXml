@@ -9,8 +9,8 @@
             <ColumnDefinition width="*" />
             <ColumnDefinition width="*" />
         </Grid.ColumnDefinitions>
-        <TextBlock Grid.column_span="2" Grid.column="0" Grid.Row="0" text="Tag: Regicide: " font_size="18"/>
-        <InputBox Grid.column="0" Grid.row="1" text="Quote" x_Name="input_box" width="100" border_width="0" content="Ex" />
+        <TextBlock Grid.column_span="2" Grid.column="0" Grid.Row="0" x_Name="test_title" font_size="18"/>
+        <InputBox Grid.column="0" Grid.row="1" text="Quote" x_Name="input_box" width="100" border_width="0" content="" />
         <Button Grid.column="1" Grid.row="1" text="Check" padding="0" click="check_quote" />
         <TextBlock Grid.column="0" Grid.row="2" x_Name="message" />
         <Button Grid.column="1" Grid.row="2" click="complete_test" padding="0" text="Finish" />

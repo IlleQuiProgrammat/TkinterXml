@@ -1,5 +1,8 @@
+from typing import List
+from quote_lib.quote import Quote, get_quote
 import xml.etree.cElementTree as ET
 import tkinter as TK
+import random
 import tkinter_xml.elements.Button
 from tkinter_xml.Page import *
 from tkinter_xml.element_list import register_element
@@ -32,23 +35,35 @@ class QuoteElement(Page):
 register_element("QuoteElement", QuoteElement)
 
 class TestPage(SubPage):
-    def __init__(self, tk_parent_page, title, valid_quotes):
+    def __init__(self, tk_parent_page, title, valid_quotes: List[Quote]):
         super().__init__("./test_subpage.xml", tk_parent_page)
         self.title = title
         self.correct_quotes = []
         self.valid_quotes = valid_quotes
     
+    def get_quote(self, phrase, quotes=None):
+        if not quotes: quotes = self.valid_quotes
+        for quote in self.valid_quotes:
+            if phrase == quote.phrase:
+                return quote
+        return None
+
     def check_quote(self, button):
-        if self.input_box.content in self.correct_quotes:
+        quote = None
+        if self.input_box.content in [q.phrase for q in self.correct_quotes]:
             self.message.text = "You've already input that one before!"
-        elif self.input_box.content in self.valid_quotes:
-            self.correct_quotes.append(self.input_box.content)
+        elif (quote := self.get_quote(self.input_box.content, self.valid_quotes)):
+            self.correct_quotes.append(quote)
             self.input_box.content = ""
             self.message.text = "Correct!"
+            quote.correct += 1
         else:
-            self.input_box.content = ""
             self.message.text = "Wrong :("
     
+    def launch(self):
+        super().launch()
+        self.test_title.text = self.title
+
     def complete_test(self, button):
         res = ResultsPage(self.tk_parent_page, "", self.correct_quotes, self.valid_quotes)
         res.launch()
@@ -63,8 +78,10 @@ class ResultsPage(SubPage):
             )
             self.quote_grid.children.append(TextBlock({
                 "Grid.row": str(i),
-                "text": ("Correct: " if quote in correct_quotes else "Incorrect: ") + quote,
+                "text": ("Correct: " if get_quote(quote.phrase, correct_quotes) else "Incorrect: ") + quote.phrase,
             }, [], self, True))
+            if not get_quote(quote.phrase, correct_quotes):
+                quote.available += 1
         
 
 class MainPage(Page):
@@ -88,6 +105,7 @@ class MainPage(Page):
             }, [], self, True))
         self.page_children[0].backing_element_generator(self.window).grid()
         self.window.mainloop()
+        self.application_representation.save()
     
     def change_collection(self, collection_button):
         collection_name = collection_button.text
@@ -97,7 +115,12 @@ class MainPage(Page):
         self.reload_collection()
     
     def run_test(self, button):
-        self.tp = TestPage(self.window, self.current_collection.name, [q.phrase for q in self.current_collection.quotes])
+        tag = random.choice(self.current_collection.tags)
+        tags = []
+        for q in self.current_collection.quotes:
+            if tag in q.tags:
+                tags.append(q)
+        self.tp = TestPage(self.window, f"{self.current_collection.name} - {tag} test", tags)
         self.tp.launch()
     
     def reload_collection(self):
@@ -110,6 +133,9 @@ class MainPage(Page):
                 "quote_text": quote.phrase
             }, [], self, True))
         self.quote_grid.reload()
+    
+    def add_quote(self, button):
+        print("Need to create new quote window here")
 
 
 main_window = MainPage("testing.xml")

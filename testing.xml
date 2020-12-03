@@ -26,9 +26,11 @@
             <Grid.ColumnDefinitions>
                 <ColumnDefinition width="*" />
                 <ColumnDefinition width="*" />
+                <ColumnDefinition width="*" />
             </Grid.ColumnDefinitions>
-            <TextBlock Grid.column="0" x_Name="title" text="Hello, Nathan" font_size="32" />
-            <Button Grid.column="1" click="run_test" text="Test!" padding="0" />
+            <Button Grid.column="0" click="add_quote" text="New Quote" padding="0" />
+            <TextBlock Grid.column="1" x_Name="title" text="Please select a collection" font_size="32" />
+            <Button Grid.column="2" click="run_test" text="Test!" padding="0" />
         </Grid>
         
         <!-- List of quotes -->

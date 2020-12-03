@@ -1,9 +1,18 @@
-name: "Nathan"
 collections:
- - name: "Macbeth"
-   tags: ["Treachery", "Religion", "Power", "Ambition"]
-   quotes:
-     - {phrase: "O'erleap and fall on the other.", tags: ["Ambition"], available: 2, correct: 0, wrong: 1}
-     - {phrase: "I can't remember a single quote rip.", tags: ["Power"], available: 3, correct: 1, wrong: 1}
-
-   
+- name: Macbeth
+  quotes:
+  - available: 2
+    correct: 0
+    phrase: O'erleap and fall on the other.
+    tags:
+    - Ambition
+  - available: 4
+    correct: 1
+    phrase: I can't remember a single quote rip.
+    tags:
+    - Power
+    - Ambition
+  tags:
+  - Power
+  - Ambition
+name: Nathan

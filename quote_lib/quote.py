@@ -7,8 +7,6 @@ class Quote:
         self.tags = object_from_yaml["tags"]
         self.available = object_from_yaml["available"]
         self.correct = object_from_yaml["correct"]
-        self.wrong = object_from_yaml["wrong"]
-        self.not_said = self.available - self.correct - self.wrong
 
     def serialise(self):
         return {
@@ -16,5 +14,10 @@ class Quote:
             "tags": self.tags,
             "available": self.available,
             "correct": self.correct,
-            "wrong": self.wrong
         }
+
+def get_quote(phrase, quotes):
+        for quote in quotes:
+            if phrase == quote.phrase:
+                return quote
+        return None

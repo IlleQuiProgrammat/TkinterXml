@@ -19,3 +19,9 @@ class ApplicationRepresentation:
             "name": self.name,
             "collections": [collection.serialise() for collection in self.collections]
         }
+
+    def save(self):
+        ser = self.serialise()
+        yaml_file = open(self.__filepath, 'w')
+        yaml_file.write(yaml.dump(ser))
+        yaml_file.close()
