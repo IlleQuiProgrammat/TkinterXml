@@ -49,13 +49,15 @@ class TestPage(SubPage):
         quote = None
         if self.input_box.content in [q.phrase for q in self.correct_quotes]:
             self.message.text = "You've already input that one before!"
-        elif (quote := get_quote_fuzzy(self.input_box.content, self.valid_quotes, 0.9)):
-            self.correct_quotes.append(quote)
-            self.input_box.content = ""
-            self.message.text = "Correct!"
-            quote.correct += 1
         else:
-            self.message.text = "Wrong :("
+            quote = get_quote_fuzzy(self.input_box.content, self.valid_quotes, 0.9)
+            if quote:
+                self.correct_quotes.append(quote)
+                self.input_box.content = ""
+                self.message.text = "Correct!"
+                quote.correct += 1
+            else:
+                self.message.text = "Wrong :("
     
     def launch(self):
         super().launch()
