@@ -1,13 +1,13 @@
 collections:
 - name: Macbeth
   quotes:
-  - available: 2
-    correct: 0
+  - available: 3
+    correct: 2
     phrase: O'erleap and fall on the other.
     tags:
     - Ambition
-  - available: 4
-    correct: 1
+  - available: 7
+    correct: 3
     phrase: I can't remember a single quote rip.
     tags:
     - Power

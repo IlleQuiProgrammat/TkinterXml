@@ -9,3 +9,6 @@ class SubPage(Page):
     def launch(self):
         self.window = TK.Toplevel(self.tk_parent_page)
         self.page_children[0].backing_element_generator(self.window).grid()
+    
+    def close(self, *args, **kwargs):
+        self.window.destroy()

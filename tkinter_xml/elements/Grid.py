@@ -37,12 +37,16 @@ class Grid(BaseElement):
     def backing_element_generator(self, parent):
         grid_parent = TK.Frame(parent)
         self.element = grid_parent
+        self.__prev_children = []
         self.reload()
         return grid_parent
     
     def reload(self):
         self.element.config(background=self.background)
         
+        for oldchild in self.__prev_children:
+            if isinstance(oldchild, BaseElement) and hasattr(oldchild, "element"):
+                oldchild.element.destroy()
 
         # Collect row definitions from anywhere in a direct child xml node and use the {Column,Row}Definition class to
         # parse them
@@ -81,6 +85,7 @@ class Grid(BaseElement):
                         row = int(child.custom_attributes['Grid']['row'])
                 
                 child.backing_element_generator(self.element).grid(column=column, row=row)
+        self.__prev_children = self.children
 
 register_element("Grid", Grid)
 register_element("Grid.RowDefinitions", Grid.RowDefinitions)

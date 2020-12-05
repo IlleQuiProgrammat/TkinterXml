@@ -1,6 +1,6 @@
 import tkinter as TK
 import xml.etree.cElementTree as ET
-import importlib
+from typing import List
 from tkinter_xml.elements.BaseElement import *
 from tkinter_xml.elements.Grid import *
 from tkinter_xml.elements.Button import *
@@ -12,11 +12,12 @@ class Page(BaseElement):
     def __init__(self, sourcefile, attributes, children, parent_page=None):
         self.default_attributes = {}
         self.sourcefile = sourcefile
+        self.custom_element_parent = parent_page
         self.process_source()
         super().__init__(attributes, children, self, False)
     
     # TODO: Make this more generic
-    def process_xml_tree(self, element_tree: [ET.Element]):
+    def process_xml_tree(self, element_tree: List[ET.Element]):
         element = element_tree[0]
         children = [self.process_xml_tree(child) for child in element_tree[1]]
         if element.tag == "Page":
@@ -38,4 +39,5 @@ class Page(BaseElement):
         self.process_xml_tree(result)
     
     def backing_element_generator(self, parent):
-        return self.page_children[0].backing_element_generator(parent)
+        self.element = self.page_children[0].backing_element_generator(parent)
+        return self.element
