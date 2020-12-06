@@ -3,8 +3,34 @@
 A Program designed to parse the tree of a XML document and render the result 
 using tkinter
 
+## Running
 
-# Brief Documentation
+```bash
+python3 -m venv venv
+
+# linux and macos
+source .\venv\bin\activate
+
+# windows powershell
+.\venv\Scipts\Activate.ps1
+# windows cmd
+.\venv\Scripts\activate.bat
+
+python3 -m pip install -r ./requirements.txt
+
+# Documentation:
+# linux
+cd ./docs; make html; xdg-open ./_build/html/index.html; cd ..
+# macos
+cd ./docs; make html; open ./_build/html/index.html; cd ..
+# windows
+cd .\docs; .\make.bat html; explorer.exe .\_build\html\index.html; cd ..
+
+# Quotes App:
+python3 ./quotes.py
+```
+
+# Brief Overview Documentation
 
 The syntax for the XML is standard XML but currently there are few currently 
 supported tags.
