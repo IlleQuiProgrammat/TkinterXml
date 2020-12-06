@@ -65,7 +65,6 @@ Simply run `my_obj.<property_to_change> = <new_value>` and then `my_obj.reload()
  - `tkinter_xml` - Contains the module for processing and converting the base
    xml into tkinter widgets
    - `elements` - Contains the pre-defined elements as above.
-   - `constants.py` - Contains globally-required constants
    - `Page.py` - Contains file-parsing and tag resolution capabilities
  - `main.py` - The entry point of the program which uses `tkinter_xml`
  - `simple.xml` - An example xml file showcasing the current abilities of the

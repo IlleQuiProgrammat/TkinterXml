@@ -1,0 +1,1 @@
+"""Contains ``BaseElement``-derived classes which represent common tkinter widgets and handle their parsing of attributes"""

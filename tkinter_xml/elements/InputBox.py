@@ -1,11 +1,15 @@
 import tkinter as TK
 from tkinter import StringVar
 from tkinter_xml.element_list import register_element
-from tkinter_xml.constants import *
 from tkinter_xml.elements.BaseElement import *
 
 class InputBox(BaseElement):
-
+    """Represents a tkinter button element
+    
+    .. note: all properties are directly set to their corresponding tkinter properties. These are often just their names
+        without the underscores
+    """
+    
     def __init__(self, attributes, children, parent_page, immediate_update=True):
         self._background = "#FFFFFF"
         self._border_width = 0
