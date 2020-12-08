@@ -12,7 +12,18 @@ collections:
     tags:
     - Power
     - Ambition
-  tags:
-  - Power
-  - Ambition
+  - available: 1
+    correct: 1
+    phrase: phrase
+    tags:
+    - '1'
+    - '2'
+    - '3'
+    - '4'
+    - '5'
+    - '6'
+    - '7'
+    - '8'
+    - '9'
+    - '10'
 name: Nathan

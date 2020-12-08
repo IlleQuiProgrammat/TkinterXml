@@ -6,12 +6,18 @@ class QuoteCollection:
     
     def deserialise(self, object_from_yaml):
         self.name = object_from_yaml["name"]
-        self.tags = object_from_yaml["tags"]
         self.quotes = [Quote(quote_data) for quote_data in object_from_yaml["quotes"]]
     
+    @property
+    def tags(self):  # TODO: Cache the results of this and update on change
+        tags = set()
+        for quote in self.quotes:
+            for tag in quote.tags:
+                tags.add(tag)
+        return list(tags)
+
     def serialise(self):
         return {
             "name": self.name,
-            "tags": self.tags,
             "quotes": [quote.serialise() for quote in self.quotes]
         }

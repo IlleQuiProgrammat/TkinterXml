@@ -12,6 +12,8 @@ from tkinter_xml.elements.InputBox import InputBox
 from quote_lib.main import ApplicationRepresentation
 
 class QuoteElement(Page):
+    """Represents a quote custom control with the ability to delete itself"""
+
     def __init__(self, attributes, children, parent_page, immediate_update=False):
         if len(children) != 0:
             raise Exception("QuoteElement cannot have any children")
@@ -24,19 +26,19 @@ class QuoteElement(Page):
     
     @quote_text.setter
     def quote_text(self, value):
-        if hasattr(self.quote_label, "element"):
+        if hasattr(self.quote_label, "element"):  # if the element has already been rendered and can hence be updated
             self.quote_label.text = value
-        else:
+        else:  # otherwise, modify the initial default value so that it is used on creation.
             self.quote_label._text = value
 
     def delete(self, quote_button):
-        print(f"Attempted to delete {self}")
+        """Deletes the current quote from the parent quote collection"""
+        
         index = [quote.phrase for quote in self.custom_element_parent.current_collection.quotes].index(self.quote_text)
-        self.custom_element_parent.current_collection.quotes.pop(index)
-        print(self.custom_element_parent.current_collection.quotes)
-        self.custom_element_parent.reload_collection()
+        self.custom_element_parent.current_collection.quotes.pop(index)  # remove the element
+        self.custom_element_parent.reload_collection()  # reload the collection to update the ui and remove this element
 
-register_element("QuoteElement", QuoteElement)
+register_element("QuoteElement", QuoteElement)  # make sure that the element is accessible from the xml parser
 
 class TestPage(SubPage):
     def __init__(self, tk_parent_page, title, valid_quotes: List[Quote]):
@@ -46,12 +48,14 @@ class TestPage(SubPage):
         self.valid_quotes = valid_quotes
 
     def check_quote(self, button):
+        """Handles the user entering a new quote"""
+
         quote = None
-        if self.input_box.content in [q.phrase for q in self.correct_quotes]:
+        if get_quote_fuzzy(self.input_box.content, self.correct_quotes, 0.9):  # check if something similar has been entered
             self.message.text = "You've already input that one before!"
         else:
-            quote = get_quote_fuzzy(self.input_box.content, self.valid_quotes, 0.9)
-            if quote:
+            quote = get_quote_fuzzy(self.input_box.content, self.valid_quotes, 0.9) # check if the quote is valid
+            if quote:  # true when quote is found in valid_quotes and it has not already been said
                 self.correct_quotes.append(quote)
                 self.input_box.content = ""
                 self.message.text = "Correct!"
@@ -64,23 +68,29 @@ class TestPage(SubPage):
         self.test_title.text = self.title
 
     def complete_test(self, button):
+        """Creates a results page and closes this test window so that more answers can't be entered"""
+
         res = ResultsPage(self.tk_parent_page, "", self.correct_quotes, self.valid_quotes)
         res.launch()
         self.close()
 
 class ResultsPage(SubPage):
+    """Presents a list of correct/missed quotes from the previous test"""
+
     def __init__(self, tk_parent_page, title, correct_quotes, valid_quotes):
         super().__init__("./results_subpage.xml", tk_parent_page)
         correct_set = set(correct_quotes)
+        
         for i, quote in enumerate(valid_quotes):
+            # Add results to a grid
             self.quote_grid_rowdefinitions.definitions.append(
                 RowDefinition({"height": "30"}, [], self)
             )
             self.quote_grid.children.append(TextBlock({
                 "Grid.row": str(i),
-                "text": ("Correct: " if get_quote(quote.phrase, correct_quotes) else "Incorrect: ") + quote.phrase,
+                "text": ("Correct: " if quote in correct_set else "Incorrect: ") + quote.phrase,
             }, [], self, True))
-            if quote in correct_set:
+            if quote not in correct_set:
                 quote.available += 1
         
 class AddQuotePage(SubPage):
@@ -90,6 +100,8 @@ class AddQuotePage(SubPage):
         self.parent = parent
 
     def add_new_quote(self, button):
+        """Adds the entered quote to the parent collection and reloads the UI to handle the change"""
+
         phrase = self.phrase_input.content
         tags = [tag.strip() for tag in self.tag_input.content.split(",")]
         self.collection.quotes.append(Quote({"phrase": phrase, "tags": tags, "available": 0, "correct": 0}))
@@ -104,7 +116,7 @@ class MainPage(Page):
         self.window = TK.Tk()
     
     def run(self):
-        for i, collection in enumerate(self.application_representation.collections):
+        for i, collection in enumerate(self.application_representation.collections):  # insert buttons onto side nav
             self.collection_grid_rowdefinitions.definitions.append(
                 RowDefinition({"height": "30"}, [], self)
             )
@@ -118,9 +130,11 @@ class MainPage(Page):
             }, [], self, True))
         self.page_children[0].backing_element_generator(self.window).grid()
         self.window.mainloop()
-        self.application_representation.save()
+        self.application_representation.save()  # save any changes saved in memory during program execution
     
     def change_collection(self, collection_button):
+        """Switches the current visible collection by button text and updates the UI"""
+
         collection_name = collection_button.text
         self.title.text = collection_name
         collection_id = int(collection_button.custom_attributes["Collection"]["id"])
@@ -128,6 +142,8 @@ class MainPage(Page):
         self.reload_collection()
     
     def run_test(self, button):
+        """Launches a test on a random tag for the given collection"""
+
         tag = random.choice(self.current_collection.tags)
         tags = []
         for q in self.current_collection.quotes:
@@ -137,6 +153,8 @@ class MainPage(Page):
         self.tp.launch()
     
     def reload_collection(self):
+        """Updates the collection UI to match the current quotes in the collection"""
+
         self.quote_grid_rowdefinitions.definitions = []
         res = []
         for element in self.quote_grid.children:
@@ -151,7 +169,7 @@ class MainPage(Page):
                 "Grid.row": str(i),
                 "quote_text": quote.phrase
             }, [], self, True))
-        print(self.quote_grid.children)
+        
         self.quote_grid.reload()
     
     def add_quote(self, button):
