@@ -3,7 +3,7 @@ import tkinter as TK
 class BaseElement():
     """Determines the parsing of elements from their xml and provides a generic interface for handling elements
 
-    .. warning: As the parsing of the xml occurs on the fly, there is a chance that errors will not be caught by simply 
+    .. warning:: As the parsing of the xml occurs on the fly, there is a chance that errors will not be caught by simply 
         running the program.
 
     :param attributes: the xml attributes, these will be assigned to the derived class instance using ``setattr``, \

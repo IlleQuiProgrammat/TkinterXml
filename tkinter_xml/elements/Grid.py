@@ -22,13 +22,13 @@ class Grid(BaseElement):
             <Button Grid.row="1" text="button2" height="50"/>
         </Grid>
     
-    .. note: all properties are directly set to their corresponding tkinter properties. These are often just their names
+    .. note:: all properties are directly set to their corresponding tkinter properties. These are often just their names
         without the underscores
     """
     class ColumnDefinitions:
         """Stores the definitions so that they can be parsed from xml
         
-        .. note: although it may seem odd, ``x_Name`` is a supported tag and is supported so that modifying the grid
+        .. note:: although it may seem odd, ``x_Name`` is a supported tag and is supported so that modifying the grid
             using code is less cumbersome.
 
         :param definitions: Normally the children, this time they are treated as being ``ColumnDefinition`` only
@@ -43,7 +43,7 @@ class Grid(BaseElement):
     class RowDefinitions:
         """Stores the definitions so that they can be parsed from xml
         
-        .. note: although it may seem odd, ``x_Name`` is a supported tag and is supported so that modifying the grid
+        .. note:: although it may seem odd, ``x_Name`` is a supported tag and is supported so that modifying the grid
             using code is less cumbersome.
 
         :param definitions: Normally the children, this time they are treated as being ``RowDefinition`` only

@@ -5,7 +5,7 @@ from tkinter_xml.elements.BaseElement import *
 class Button(BaseElement):
     """Represents a tkinter button element
     
-    .. note: all properties are directly set to their corresponding tkinter properties. These are often just their names
+    .. note:: all properties are directly set to their corresponding tkinter properties. These are often just their names
         without the underscores
     """
 
