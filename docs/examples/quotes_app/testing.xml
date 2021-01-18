@@ -10,7 +10,7 @@
         </Grid.RowDefinitions>
 
         <!-- Greeting -->
-        <TextBlock Grid.row="0" Grid.column="0" text="Hello, Nathan" font_size="32" />
+        <TextBlock Grid.row="0" Grid.column="0" text="Hello" font_size="32" />
         
         <!-- List of collections -->
         <Grid Grid.row="1" Grid.column="0" x_Name="collection_grid">

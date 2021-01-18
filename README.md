@@ -1,7 +1,7 @@
 # TkinterXml
 
-A Program designed to parse the tree of a XML document and render the result 
-using tkinter
+A library designed to parse the tree of a XML document and render the result 
+using tkinter. See the examples in `/docs/examples`.
 
 ## Running
 
@@ -27,7 +27,7 @@ cd ./docs; make html; open ./_build/html/index.html; cd ..
 cd .\docs; .\make.bat html; explorer.exe .\_build\html\index.html; cd ..
 
 # Quotes App:
-python3 ./quotes.py
+cd ./docs/examples/quotes_app/; python3 ./quotes.py; cd ../../../
 ```
 
 # Brief Overview Documentation
@@ -87,11 +87,10 @@ Plans to add binding (referenced-based values for elements such as `TextBlock`).
 Simply run `my_obj.<property_to_change> = <new_value>` and then `my_obj.reload()` unless you have auto-update enabled.
 
 ## Folder Structure
- - `helpers` - Currently contains some code-generation helpers
+ - `docs` - stores documentation and examples.
+ - `helpers` - Currently contains some code-generation helpers. Manually adding the properties rather than on the fly is because it helps autocomplete.
  - `tkinter_xml` - Contains the module for processing and converting the base
    xml into tkinter widgets
    - `elements` - Contains the pre-defined elements as above.
    - `Page.py` - Contains file-parsing and tag resolution capabilities
- - `main.py` - The entry point of the program which uses `tkinter_xml`
- - `simple.xml` - An example xml file showcasing the current abilities of the
-   parser
+   - `SubPage.py` - Opens a sub-window, uses Page's parsing method but has different rendering method.
